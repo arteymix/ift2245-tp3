@@ -10,12 +10,13 @@ make
 
 1. Stratégie de remplacement pour le TLB
 
+Pour la TLB, nous avons utilisé 
 
 
 
 2.
 
-Pour changer l'algorithme de remplacement, il changer la ligne "#define LRU" dans le fichier "common.h" par "#define FIFO".
+Pour changer l'algorithme de remplacement, il changer la ligne "#define LFU" dans le fichier "common.h" par "#define FIFO" ou par "#define LRU". 
 
 LRU nous donne 0.59???
 
