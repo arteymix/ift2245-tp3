@@ -39,11 +39,7 @@ int PhysicalMemory::demandPageFromBackingStore (unsigned int pageNumber)
 	if (free_frame == -1)
 		return -1;
 
-	// déplacement sur la page à partir du début du fichier
-	this->backingStoreFile.seekg (pageNumber * 256, backingStoreFile.beg);
-
-	// lecture du fichier directement en mémoire physique
-	this->backingStoreFile.read(&physicalMemoryData[free_frame * 256], 256);
+	this->swapPage(pageNumber, free_frame);
 
 	frames_used++;
 	
@@ -53,6 +49,15 @@ int PhysicalMemory::demandPageFromBackingStore (unsigned int pageNumber)
 char PhysicalMemory::getValueFromFrameAndOffset(unsigned int frameNumber, unsigned int offset)
 {
 	return physicalMemoryData[frameNumber * 256 + offset];
+}
+
+void PhysicalMemory::swapPage(unsigned int pageNumber, unsigned int frameNumber) 
+{
+	// déplacement sur la page à partir du début du fichier
+	this->backingStoreFile.seekg (pageNumber * 256, backingStoreFile.beg);
+
+	// lecture du fichier directement en mémoire physique
+	this->backingStoreFile.read(&physicalMemoryData[frameNumber * 256], 256);
 }
 
 //----------DO NOT CHANGE/ERASE THIS------------------

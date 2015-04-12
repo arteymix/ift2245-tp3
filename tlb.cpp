@@ -121,7 +121,7 @@ void TLB::printTLB() {
     ofstream tlbFile("TLB.txt", ios::out);\
      for (int i = 0; i < TLB_NUM_ENTRIES; ++i)
         tlbFile << TLBTable[i].pageNumber << " " << TLBTable[i].frameNumber << 
-        " " << TLBTable[i].addTime << " " << TLBTable[i].lastUse " " << 
+        " " << TLBTable[i].addTime << " " << TLBTable[i].lastUse << " " << 
                TLBTable[i].access << endl;
     tlbFile.close();
 }

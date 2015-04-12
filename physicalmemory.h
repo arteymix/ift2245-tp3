@@ -27,6 +27,9 @@ public:
     //Given the frameNumber and the offset get the char value at that physical address
     char getValueFromFrameAndOffset(unsigned int frameNumber, unsigned int offset);
 
+	//
+	void swapPage (unsigned int pageNumber, unsigned int frameNumber);
+
     //----------DO NOT CHANGE/ERASE THIS------------------
     // this function is neccesary to output the physical
     // memory state at the end of execution. It needs to

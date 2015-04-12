@@ -7,7 +7,7 @@
 #include <stack>
 #include <list>
 
-#define NUM_FRAMES 256
+#define NUM_FRAMES 128
 #define NUM_PAGES 256
 #define TLB_NUM_ENTRIES 16
 #define PAGE_FRAME_SIZE 256

@@ -39,8 +39,38 @@ void VirtualMemoryManager::applyCommands(){
 			else 
 			{
 				pageFaultCount++;
+				
 				frame_number = this->physicalMemory.demandPageFromBackingStore (c.pageNumber);
 
+				// swapping
+				if (frame_number == -1) 
+				{
+					for (int i = 0; i < NUM_PAGES; i++) 
+					{
+						// pas dans le TLB et vérifié
+						if (tlb.findPage(i) == -1 && pageTable[i].verificationBit)
+						{
+							cout << "swapping frame " << pageTable[i].frameNumber << endl;
+							frame_number = pageTable[i].frameNumber;
+
+							// chargement de la page!
+							this->physicalMemory.swapPage(c.pageNumber, pageTable[i].frameNumber);
+
+							// libération de l'ancienne page
+							pageTable[i].verificationBit = false;	
+							pageTable[i].frameNumber = -1;
+							
+							break;
+						}
+					}
+				}
+
+				if (frame_number == -1)
+				{
+					std::cerr << "page " << c.pageNumber << " not found in physical memory" << endl;
+					continue;
+				}
+				
 				// update de la page table
 				this->pageTable[c.pageNumber].frameNumber = frame_number;
 				this->pageTable[c.pageNumber].verificationBit = true;
@@ -50,12 +80,6 @@ void VirtualMemoryManager::applyCommands(){
 		{
 			TLBHitCount++;
 			pageFoundCount++;
-		}
-
-		if (frame_number == -1)
-		{
-			std::cerr << "page " << c.pageNumber << " not found in physical memory" << endl;
-			continue;
 		}
 		
 		// ajoute de l'entrée au TLB
