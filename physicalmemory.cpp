@@ -51,6 +51,12 @@ char PhysicalMemory::getValueFromFrameAndOffset(unsigned int frameNumber, unsign
 	return physicalMemoryData[frameNumber * 256 + offset];
 }
 
+/**
+ * Charge une page dans un frame.
+ *
+ * Le frame remplacé n'est pas réécrit dans la persistence, car il n'y a pas 
+ * d'opérations d'écriture qui s'applique dans le cadre de ce travail.
+ */
 void PhysicalMemory::swapPage(unsigned int pageNumber, unsigned int frameNumber) 
 {
 	// déplacement sur la page à partir du début du fichier

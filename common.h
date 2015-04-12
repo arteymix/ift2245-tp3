@@ -11,12 +11,11 @@
 #define NUM_PAGES 256
 #define TLB_NUM_ENTRIES 16
 #define PAGE_FRAME_SIZE 256
-#define PHYSICAL_MEMORY_SIZE 65536
-// PHYSICAL_MEMORY_SIZE = NUM_FRAMES*PAGE_FRAME_SIZE = 256*256;
+#define PHYSICAL_MEMORY_SIZE NUM_FRAMES * PAGE_FRAME_SIZE
 
-// #define FIFO
-// #define LRU
-#define LFU
+#define FIFO
+//#define LRU
+//#define LFU
 
 using namespace std;
 

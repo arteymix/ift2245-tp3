@@ -4,15 +4,26 @@
 #include <ctime>
 #include "common.h"
 
-class TLB_entry{
+/**
+ * Entrée du TLB. 
+ */
+class TLB_entry
+{
 public:
     int pageNumber;
     int frameNumber;
+	/**
+	 * Moment de la dernière utilisation de la page.
+	 */ 
     time_t lastUse;
+	/**
+	 * Moment de l'ajout de la page dans le TLB. 
+	 */
     time_t addTime;
+	/**
+	 * Nombre d'accès à la page depuis qu'elle se trouve dans le TLB. 
+	 */
     int access;
-    
-
     TLB_entry(int page = -1, int frame = -1, time_t last = time(NULL), time_t add = time(NULL), int access = 0);
 };
 

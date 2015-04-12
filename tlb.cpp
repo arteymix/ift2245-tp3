@@ -4,9 +4,11 @@ TLB_entry::TLB_entry(int page, int frame, time_t last, time_t add, int acc) :
 pageNumber(page), frameNumber(frame), lastUse(last), addTime(add), access (acc) {
 }
 
-// Looks for the pageNumber in the table, if it finds it it return
-// the coresponding frame if not it returns -1;
-
+/**
+ * Lookup a page in the TLB.
+ *
+ * @return the corresponding frame or -1 if not found
+ */
 int TLB::findPage(int pageNumber) {
     for (int i = 0; i < TLB_NUM_ENTRIES; i++) {
         if (TLBTable[i].pageNumber == pageNumber) {
@@ -19,13 +21,13 @@ int TLB::findPage(int pageNumber) {
     return -1;
     }
 
-//Adds an entry-pair (pageNumber,frameNumber) to the TLB
-//Here you have to implement a replacement technique for
-//when the TLB is full. DONT FORGET to implement two different
-//function for this, even if you only call one of them
-
+/**
+ * Adds an entry-pair (pageNumber,frameNumber) to the TLB
+ * Here you have to implement a replacement technique for
+ * when the TLB is full. DONT FORGET to implement two different
+ * function for this, even if you only call one of them
+ */
 #ifdef FIFO
-
 void TLB::addEntry(int pageNumber, int frameNumber) {
 
     int first = 0;
@@ -49,11 +51,9 @@ void TLB::addEntry(int pageNumber, int frameNumber) {
     TLBTable[first].access = 0;
 
 }
-
 #endif
 
 #ifdef LRU
-
 void TLB::addEntry(int pageNumber, int frameNumber) {
     int lru = 0;
     time_t least = TLBTable[0].lastUse;
@@ -75,12 +75,10 @@ void TLB::addEntry(int pageNumber, int frameNumber) {
     TLBTable[lru].lastUse = time(NULL);
     TLBTable[lru].access = 0;
 }
-
 #endif
 
 
 #ifdef LFU
-
 void TLB::addEntry(int pageNumber, int frameNumber) {
     int lfu = 0;
     int acc = TLBTable[0].access;
@@ -103,7 +101,6 @@ void TLB::addEntry(int pageNumber, int frameNumber) {
     TLBTable[lfu].access = 0;
 
 }
-
 #endif
 
 TLB::TLB() : nextEntryAvailable(0) {
