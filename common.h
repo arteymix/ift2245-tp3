@@ -14,7 +14,6 @@
 #define PHYSICAL_MEMORY_SIZE 65536
 // PHYSICAL_MEMORY_SIZE = NUM_FRAMES*PAGE_FRAME_SIZE = 256*256;
 
-
 using namespace std;
 
 #endif // COMMON

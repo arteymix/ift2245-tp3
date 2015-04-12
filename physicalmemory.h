@@ -7,6 +7,12 @@ class PhysicalMemory
 {
 public:
     char physicalMemoryData[PHYSICAL_MEMORY_SIZE];
+
+	/**
+	 * Nombre de frames utilisé dans la mémoire physique.
+	 */ 
+	unsigned int frames_used;
+	
     ifstream backingStoreFile;
 
     PhysicalMemory();

@@ -4,6 +4,19 @@
 #include "physicalmemory.h"
 #include "tlb.h"
 #include "common.h"
+#include "stdint.h"
+
+/**
+ * Représente une adresse logique sous forme structurée.
+ */
+typedef union {
+	struct {
+		uint8_t  offset;
+		uint8_t  page_number;
+		uint16_t empty; /* why not? */
+	} fields;
+	unsigned int logical_address;
+} logical_address_t;
 
 class Command{
 public:

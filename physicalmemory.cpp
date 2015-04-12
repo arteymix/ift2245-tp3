@@ -19,6 +19,10 @@ int PhysicalMemory::findFreeFrame(){
     /// --------TP3__TO_DO---------
     ///
     ///
+
+	
+
+		
     return 0;
 }
 
@@ -26,14 +30,27 @@ int PhysicalMemory::demandPageFromBackingStore(unsigned int pageNumber){
     /// --------TP3__TO_DO---------
     ///
     ///
-    return 0;
+
+	this->backingStoreFile.seekg (pageNumber * 256);
+
+	unsigned int free_frame = this->findFreeFrame ();
+
+	if (free_frame == -1)
+	{
+		std::cerr << "no more free frame in physical memory" << endl;
+		return -1;
+	}
+
+	this->backingStoreFile.read(&this->physicalMemoryData[free_frame * 256], 256);
+
+	frames_used++;
+	
+    return free_frame;
 }
 
-char PhysicalMemory::getValueFromFrameAndOffset(unsigned int frameNumber, unsigned int offset){
-    /// --------TP3__TO_DO---------
-    ///
-    ///
-    return 0;
+char PhysicalMemory::getValueFromFrameAndOffset(unsigned int frameNumber, unsigned int offset)
+{
+	return physicalMemoryData[frameNumber * 256 + offset];
 }
 
 
