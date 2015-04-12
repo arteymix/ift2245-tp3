@@ -2,7 +2,7 @@
 
 PhysicalMemory::PhysicalMemory(){
     //Open the BACKING_STORE file to being able to read from it afterwards
-    backingStoreFile.open("../VirtualMemoryManager/BACKING_STORE.txt",ios::in );
+    backingStoreFile.open("BACKING_STORE.txt",ios::in );
 
 	this->frames_used = 0;
 	
@@ -34,15 +34,20 @@ int PhysicalMemory::findFreeFrame()
 
 int PhysicalMemory::demandPageFromBackingStore (unsigned int pageNumber)
 {
-	this->backingStoreFile.seekg (pageNumber * 256);
-
 	int free_frame = this->findFreeFrame ();
 
 	if (free_frame == -1)
 		return -1;
 
+	// déplacement sur la page à partir du début du fichier
+	this->backingStoreFile.seekg (pageNumber * 256, backingStoreFile.beg);
+
+	char buffer[256];
 	// lecture du fichier directement en mémoire physique
-	this->backingStoreFile.read(&this->physicalMemoryData[free_frame * 256], 256);
+	this->backingStoreFile.read(&physicalMemoryData[free_frame * 256], 256);
+
+	cout << buffer << endl;
+	cout << physicalMemoryData[free_frame] << endl;
 
 	frames_used++;
 	
