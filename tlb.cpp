@@ -10,7 +10,12 @@ pageNumber(page), frameNumber(frame), lastUse(last), addTime(add) {
 int TLB::findPage(int pageNumber) {
     for (int i = 0; i < TLB_NUM_ENTRIES; i++) {
         if (TLBTable[i].pageNumber == pageNumber) {
+#ifdef LRU            
             TLBTable[i].lastUse = time(NULL);
+#endif
+#ifdef LFU
+            TLBTable[i].access++;
+#endif
             return TLBTable[i].frameNumber;
         }
     }
@@ -28,7 +33,7 @@ int TLB::findPage(int pageNumber) {
 void TLB::addEntry(int pageNumber, int frameNumber) {
 
     int first = 0;
-    time_h add = TLBTable[0].addTime;
+    time_t add = TLBTable[0].addTime;
     for (int i = 0; i < TLB_NUM_ENTRIES; i++) {
         if (TLBTable[i].pageNumber == -1) {
             TLBTable[i].frameNumber = frameNumber;
@@ -36,15 +41,16 @@ void TLB::addEntry(int pageNumber, int frameNumber) {
             TLBTable[i].addTime = time(NULL);    
             TLBTable[i].lastUse = time(NULL);
             return;
-        } else if (TLBTable[i].addTime < addTime){
+        } else if (TLBTable[i].addTime < add){
             first = i;
             add = TLBTable[i].addTime;
         }
     }
-    TLBTable[lru].frameNumber = frameNumber;
-    TLBTable[lru].pageNumber = pageNumber;
-    TLBTable[lru].addTime = time(NULL);    
-    TLBTable[lru].lastUse = time(NULL);
+    TLBTable[first].frameNumber = frameNumber;
+    TLBTable[first].pageNumber = pageNumber;
+    TLBTable[first].addTime = time(NULL);    
+    TLBTable[first].lastUse = time(NULL);   
+    TLBTable[first].access = 0;
 
 }
 
@@ -54,7 +60,7 @@ void TLB::addEntry(int pageNumber, int frameNumber) {
 
 void TLB::addEntry(int pageNumber, int frameNumber) {
     int lru = 0;
-    time_h least = TLBTable[0].lastUse;
+    time_t least = TLBTable[0].lastUse;
     for (int i = 0; i < TLB_NUM_ENTRIES; i++) {
         if (TLBTable[i].pageNumber == -1) {
             TLBTable[i].frameNumber = frameNumber;
@@ -71,6 +77,35 @@ void TLB::addEntry(int pageNumber, int frameNumber) {
     TLBTable[lru].pageNumber = pageNumber;
     TLBTable[lru].addTime = time(NULL);    
     TLBTable[lru].lastUse = time(NULL);
+    TLBTable[lru].access = 0;
+}
+
+#endif
+
+
+#ifdef LFU
+
+void TLB::addEntry(int pageNumber, int frameNumber) {
+    int lfu = 0;
+    int access = TLBTable[0].access;
+    for (int i = 0; i < TLB_NUM_ENTRIES; i++) {
+        if (TLBTable[i].pageNumber == -1) {
+            TLBTable[i].frameNumber = frameNumber;
+            TLBTable[i].pageNumber = pageNumber;
+            TLBTable[i].addTime = time(NULL);    
+            TLBTable[i].lastUse = time(NULL);
+            return;
+        } else if (TLBTable[i].access < access){
+            lfu = i;
+            access = TLBTable[i].access;
+        }
+    }
+    TLBTable[access].frameNumber = frameNumber;
+    TLBTable[access].pageNumber = pageNumber;
+    TLBTable[access].addTime = time(NULL);    
+    TLBTable[access].lastUse = time(NULL);
+    TLBTable[access].access = 0;
+    
 }
 
 #endif
