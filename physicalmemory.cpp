@@ -4,6 +4,8 @@ PhysicalMemory::PhysicalMemory(){
     //Open the BACKING_STORE file to being able to read from it afterwards
     backingStoreFile.open("../VirtualMemoryManager/BACKING_STORE.txt",ios::in );
 
+	this->frames_used = 0;
+	
     // fills the PhysicalMemory with spaces ' '
     for (int i=0; i<PHYSICAL_MEMORY_SIZE; ++i)
         physicalMemoryData[i] = ' ';
@@ -14,33 +16,32 @@ PhysicalMemory::~PhysicalMemory(){
     backingStoreFile.close();
 }
 
-//Looks for a free frame to store the page read from the BACKING_STORE file
-int PhysicalMemory::findFreeFrame(){
-    /// --------TP3__TO_DO---------
-    ///
-    ///
-
+/**
+ * Le frame libre correspond toujours à l'indice du nombre de frames utilisés. 
+ * 
+ * Il n'y a pas de politique de recyclage de frame avec le stockage, alors dès 
+ * que tous les frames sont utilisés, cette fonction retournera toujours -1.
+ * 
+ * @return a free frame index, or -1 if none can be freed
+ */
+int PhysicalMemory::findFreeFrame()
+{
+	if (frames_used == NUM_FRAMES)
+		return -1;
 	
-
-		
-    return 0;
+	return this->frames_used;
 }
 
-int PhysicalMemory::demandPageFromBackingStore(unsigned int pageNumber){
-    /// --------TP3__TO_DO---------
-    ///
-    ///
-
+int PhysicalMemory::demandPageFromBackingStore (unsigned int pageNumber)
+{
 	this->backingStoreFile.seekg (pageNumber * 256);
 
-	unsigned int free_frame = this->findFreeFrame ();
+	int free_frame = this->findFreeFrame ();
 
 	if (free_frame == -1)
-	{
-		std::cerr << "no more free frame in physical memory" << endl;
 		return -1;
-	}
 
+	// lecture du fichier directement en mémoire physique
 	this->backingStoreFile.read(&this->physicalMemoryData[free_frame * 256], 256);
 
 	frames_used++;
@@ -52,9 +53,6 @@ char PhysicalMemory::getValueFromFrameAndOffset(unsigned int frameNumber, unsign
 {
 	return physicalMemoryData[frameNumber * 256 + offset];
 }
-
-
-
 
 //----------DO NOT CHANGE/ERASE THIS------------------
 // this function is neccesary to output the physical

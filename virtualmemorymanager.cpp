@@ -34,30 +34,37 @@ void VirtualMemoryManager::applyCommands(){
 			if (this->pageTable[c.pageNumber].verificationBit) 
 			{
 				frame_number = this->pageTable[c.pageNumber].frameNumber;
+				pageFoundCount++;
 			} 
 			else 
 			{
 				pageFaultCount++;
 				frame_number = this->physicalMemory.demandPageFromBackingStore (c.pageNumber);
+
+				// update de la page table
+				this->pageTable[c.pageNumber].frameNumber = frame_number;
+				this->pageTable[c.pageNumber].verificationBit = true;
 			}
 		}
 		else
 		{
 			TLBHitCount++;
+			pageFoundCount++;
 		}
 
 		if (frame_number == -1)
 		{
-			std::cerr << "page %i not found in physical memory" << endl;
+			std::cerr << "page " << c.pageNumber << " not found in physical memory" << endl;
 			continue;
 		}
-
-		pageFoundCount++;
+		
+		// ajoute de l'entrée au TLB
+		this->tlb.addEntry(c.pageNumber, frame_number);
 
 		// c'est garanti que la page est chargée dans le frame demandé
 		signed char val = this->physicalMemory.getValueFromFrameAndOffset (frame_number, c.offset);
 		
-        int physicalAddress = 0;
+        int physicalAddress = frame_number * 256 + c.offset;
 
         cout << "Original Addr: " << setw(5) << c.logicalAdd
              << "\tPage: " << setw(3) << c.pageNumber
