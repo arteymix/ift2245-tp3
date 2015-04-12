@@ -42,12 +42,8 @@ int PhysicalMemory::demandPageFromBackingStore (unsigned int pageNumber)
 	// déplacement sur la page à partir du début du fichier
 	this->backingStoreFile.seekg (pageNumber * 256, backingStoreFile.beg);
 
-	char buffer[256];
 	// lecture du fichier directement en mémoire physique
 	this->backingStoreFile.read(&physicalMemoryData[free_frame * 256], 256);
-
-	cout << buffer << endl;
-	cout << physicalMemoryData[free_frame] << endl;
 
 	frames_used++;
 	

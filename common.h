@@ -15,6 +15,7 @@
 // PHYSICAL_MEMORY_SIZE = NUM_FRAMES*PAGE_FRAME_SIZE = 256*256;
 
 // #define FIFO
+// #define LRU
 #define LFU
 
 using namespace std;
