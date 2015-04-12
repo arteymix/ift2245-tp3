@@ -1,14 +1,18 @@
 #ifndef TLB_H
 #define TLB_H
 
+#include <ctime>
 #include "common.h"
 
 class TLB_entry{
 public:
     int pageNumber;
     int frameNumber;
+    time_t lastUse;
+    time_t addTime;
+    
 
-    TLB_entry(int page = -1, int frame = -1);
+    TLB_entry(int page = -1, int frame = -1, time_t last = time(NULL), time_t add = time(NULL));
 };
 
 class TLB

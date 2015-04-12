@@ -1,44 +1,94 @@
 #include "tlb.h"
 
-TLB_entry::TLB_entry(int page, int frame) :
-    pageNumber(page), frameNumber(frame){
+TLB_entry::TLB_entry(int page, int frame, time_t last, time_t add) :
+pageNumber(page), frameNumber(frame), lastUse(last), addTime(add) {
 }
 
 // Looks for the pageNumber in the table, if it finds it it return
 // the coresponding frame if not it returns -1;
-int TLB::findPage(int pageNumber){
-    /// --------TP3__TO_DO---------
-    ///
-    ///
-    return 0;
-}
+
+int TLB::findPage(int pageNumber) {
+    for (int i = 0; i < TLB_NUM_ENTRIES; i++) {
+        if (TLBTable[i].pageNumber == pageNumber) {
+            TLBTable[i].lastUse = time(NULL);
+            return TLBTable[i].frameNumber;
+        }
+    }
+
+    return -1;
+    }
 
 //Adds an entry-pair (pageNumber,frameNumber) to the TLB
 //Here you have to implement a replacement technique for
 //when the TLB is full. DONT FORGET to implement two different
 //function for this, even if you only call one of them
-void TLB::addEntry(int pageNumber, int frameNumber){
-    /// --------TP3__TO_DO---------
-    ///
-    ///
+
+#ifdef FIFO
+
+void TLB::addEntry(int pageNumber, int frameNumber) {
+
+    int first = 0;
+    time_h add = TLBTable[0].addTime;
+    for (int i = 0; i < TLB_NUM_ENTRIES; i++) {
+        if (TLBTable[i].pageNumber == -1) {
+            TLBTable[i].frameNumber = frameNumber;
+            TLBTable[i].pageNumber = pageNumber;
+            TLBTable[i].addTime = time(NULL);    
+            TLBTable[i].lastUse = time(NULL);
+            return;
+        } else if (TLBTable[i].addTime < addTime){
+            first = i;
+            add = TLBTable[i].addTime;
+        }
+    }
+    TLBTable[lru].frameNumber = frameNumber;
+    TLBTable[lru].pageNumber = pageNumber;
+    TLBTable[lru].addTime = time(NULL);    
+    TLBTable[lru].lastUse = time(NULL);
+
 }
 
+#endif
 
+#ifdef LRU
 
-TLB::TLB() : nextEntryAvailable(0){
+void TLB::addEntry(int pageNumber, int frameNumber) {
+    int lru = 0;
+    time_h least = TLBTable[0].lastUse;
+    for (int i = 0; i < TLB_NUM_ENTRIES; i++) {
+        if (TLBTable[i].pageNumber == -1) {
+            TLBTable[i].frameNumber = frameNumber;
+            TLBTable[i].pageNumber = pageNumber;
+            TLBTable[i].addTime = time(NULL);    
+            TLBTable[i].lastUse = time(NULL);
+            return;
+        } else if (TLBTable[i].lastUse < least){
+            lru = i;
+            least = TLBTable[i].lastUse;
+        }
+    }
+    TLBTable[lru].frameNumber = frameNumber;
+    TLBTable[lru].pageNumber = pageNumber;
+    TLBTable[lru].addTime = time(NULL);    
+    TLBTable[lru].lastUse = time(NULL);
 }
 
-TLB::~TLB(){
+#endif
+
+TLB::TLB() : nextEntryAvailable(0) {
+}
+
+TLB::~TLB() {
 }
 
 //----------DO NOT CHANGE/ERASE THIS------------------
 // this function is neccesary to output the TLB state
 // at the end of execution. It needs to
 // be generated for evaluation purposes.
-void TLB::printTLB()
-{
-     ofstream tlbFile("TLB.txt",ios::out );\
-     for (int i=0; i<TLB_NUM_ENTRIES; ++i)
-         tlbFile << TLBTable[i].pageNumber << " " << TLBTable[i].frameNumber << endl;
-     tlbFile.close();
+
+void TLB::printTLB() {
+    ofstream tlbFile("TLB.txt", ios::out);\
+     for (int i = 0; i < TLB_NUM_ENTRIES; ++i)
+        tlbFile << TLBTable[i].pageNumber << " " << TLBTable[i].frameNumber << endl;
+    tlbFile.close();
 }
