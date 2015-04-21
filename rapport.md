@@ -42,10 +42,10 @@ Pour la TLB, nous avons utilisé LFU comme algorithme de remplacement car, des
 trois algorithmes implantés, c'est celui qui se comportant le mieux avec
 l'exemple "addresse.txt".
 
-Chaque algorithme de remplacement à ses cas où il
+Chaque algorithme de remplacement à son cas où il performe mieux :
 
  - LFU  fonctionne bien lorsqu'un nombre limité de frames ont un nombre d'accès
-        beaucoup plus élevé que les autres et que ceux-ci sont appelés...
+        beaucoup plus élevé que les autres et que leur distribitution est telle que les plus fréquents sont plus appelés vers la fin que vers le début.
  - LRU  fonctionne bien lorsque les accès à une frame particulière sont
         rapprochés.
  - FIFO fonctionne bien lorsque les accès à une frame particulière sont très
