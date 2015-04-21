@@ -2,14 +2,14 @@
 % Vincent Antaki et Guillaume Poirier-Morency
 
 Pour compiler, un `Makefile` est fournit, alors il suffit de lancer la
-commande:
+commande :
 
 ```bash
 make
 ```
 
 Pour alterner d'un algorithme de mise en cache à un autre, il suffit de changer
-la directive `#define <algorithme>` dans le fichier `common.h`:
+la directive `#define <algorithme>` dans le fichier `common.h` :
 
 ```C
 #define LRU
@@ -18,7 +18,7 @@ la directive `#define <algorithme>` dans le fichier `common.h`:
 ```
 
 La séquence d'action qui a été implantée dans l'exécution d'une commande est la
-suivante:
+suivante :
 
  1. vérifier si la page se trouve dans le TLB
  2. sinon, vérifier si la page est encore chargée en mémoire
@@ -62,19 +62,15 @@ FIFO       0.018%          0.587%
 
 ## Page fault ratio
 
-Avec le premier fichier exemple où 18 pages sont chargés, le _page fault ratio_
-est le même pour tous les algorithmes utilisés car le nombre de pages à charger
-est inférieur à la taille de la mémoire physique. Toutes les pages se trouvent dans la mémoire physique.
+Avec le premier exemple ("adresse.txt") où 18 pages sont chargés, le _page fault ratio_
+est le même (18\1000) pour tous les algorithmes utilisés car le nombre de pages à charger
+est inférieur à la taille de la mémoire physique et donc il n'est jamais nécessaire de _swapper_ des pages d'une frame de la mémoire physique. Si le nombre de page à charger est inférieur au nombre de place en mémoire
+physique, le page fault ratio sera toujours "le nombre de page à charger"/"
+le nombre total de requete".
 
 Dans le cadre du deuxième exemple, un plus grand nombre de page est demandé et 
 on peut observer une bonne disparité au niveau du rendement de chaques
 algorithmes.
-
-Si le nombre de page à charger est inférieur au nombre de place en mémoire
-physique, le page fault ratio sera toujours "le nombre de page à charger"/"
-le nombre total de requete".
-
-Pour "adresse.txt", il est de 18/1000 car seul 18 page sont utilisé dans l'exemple
 
 Pour changer l'algorithme de remplacement, il suffit de changer la ligne "#define LFU"
  dans le fichier "common.h" par "#define FIFO" ou par "#define LRU". Il est
