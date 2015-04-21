@@ -103,6 +103,7 @@ Page-Faults: 256	Page founds: 69744
 TLB-Hit: 4355	TLB-miss: 65645
 Page-Fault rate: 0.00365714
 TLB-Hit rate: 0.0622143
+```
 
 # Gestion d'une petite mémoire physique
 
@@ -115,6 +116,7 @@ par la page désirée.
 Les même comparaisons d'algorithmes avec une 128 frames et 256 pages donnent
 les résultats suivants:
 
+```
 FIFO
 
 Page-Faults: 34970	Page founds: 35030
@@ -135,4 +137,4 @@ Page-Faults: 34906	Page founds: 35094
 TLB-Hit: 4342	TLB-miss: 65658
 Page-Fault rate: 0.498657
 TLB-Hit rate: 0.0620286
-
+```
