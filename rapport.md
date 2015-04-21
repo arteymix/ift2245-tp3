@@ -43,13 +43,10 @@ trois algorithmes implantés, c'est celui qui se comportant le mieux avec
 l'exemple "addresse.txt".
 
 Chaque algorithme de remplacement a son cas où il performe mieux. 
-
-LFU fonctionne bien lorsqu'un nombre limité de frames ont un nombre d'accès 
+-LFU fonctionne bien lorsqu'un nombre limité de frames ont un nombre d'accès 
 beaucoup plus élevé que les autres et que ceux-ci sont appelés.
-
-LRU fonctionne bien lorsque les accès à une frame particulière sont rapprochés.
-
-FIFO fonctionne bien lorsque les accès à une frame particulière sont très 
+-LRU fonctionne bien lorsque les accès à une frame particulière sont rapprochés.
+-FIFO fonctionne bien lorsque les accès à une frame particulière sont très 
 rapprochée, voir quasi-consécutive. 
 
 ## Page fault ratio
