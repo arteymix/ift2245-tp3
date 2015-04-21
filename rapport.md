@@ -64,7 +64,7 @@ FIFO       0.018%          0.587%
 
 Avec le premier exemple ("adresse.txt") où 18 pages sont chargés, le _page fault ratio_
 est le même (18\1000) pour tous les algorithmes utilisés car le nombre de pages à charger
-est inférieur à la taille de la mémoire physique et donc il n'est jamais nécessaire de _swapper_ des pages d'une frame de la mémoire physique. Si le nombre de page à charger est inférieur au nombre de place en mémoire
+est inférieur à la taille de la mémoire physique et il n'est donc jamais nécessaire de _swapper_ des pages d'une frame de la mémoire physique. Si le nombre de page à charger est inférieur au nombre de place en mémoire
 physique, le page fault ratio sera toujours "le nombre de page à charger"/"
 le nombre total de requete".
 
