@@ -27,7 +27,7 @@ suivante:
  5. ajouter la page au TLB
 
 Pour l'allocation initiales des frames, un compte est gardé pour mémoriser
-combien de frames ont été alloués. Une fois tous les frames alloués, la
+combien de frames ont été alloués. Une fois toutes les frames alloués, la
 stratégie qui suit consitue à faire du _swapping_ en fournissant un frame que
 l'on souhaite utiliser pour charger la page demandée. Le _write back_ n'a pas
 été implanté, car aucune opération d'écriture n'est permise dans le cadre du
