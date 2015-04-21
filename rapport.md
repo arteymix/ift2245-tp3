@@ -76,7 +76,7 @@ le nombre total de requete".
 
 Pour "adresse.txt", il est de 18/1000 car seul 18 page sont utilisé dans l'exemple
 
-Pour changer l'algorithme de remplacement, il changer la ligne "#define LFU"
+Pour changer l'algorithme de remplacement, il suffit de changer la ligne "#define LFU"
  dans le fichier "common.h" par "#define FIFO" ou par "#define LRU". Il est
 important de n'avoir qu'un seul de ces define de présent sinon on se retrouve
 avec plus qu'une fonction addentry pour le TLB.
