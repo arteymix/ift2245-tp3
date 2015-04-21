@@ -78,26 +78,11 @@ avec plus qu'une fonction addentry pour le TLB.
 
 Avec 256 frames et 18 entrées dans le TLB, on obtient les résultats suivants:
 
-```
-LFU
-Page-Faults: 256	Page founds: 69744
-TLB-Hit: 4396	TLB-miss: 65604
-Page-Fault rate: 0.00365714
-TLB-Hit rate: 0.0628
-
-LRU
-Page-Faults: 256	Page founds: 69744
-TLB-Hit: 4158	TLB-miss: 65842
-Page-Fault rate: 0.00365714
-TLB-Hit rate: 0.0594
-
-FIFO
-
-Page-Faults: 256	Page founds: 69744
-TLB-Hit: 4355	TLB-miss: 65645
-Page-Fault rate: 0.00365714
-TLB-Hit rate: 0.0622143
-```
+Algorithme Page fault ratio TLB hit rate
+---------- ---------------- ------------
+FIFO       0.36%            6.22%
+LFU        0.36%            6.28%
+LRU        0.36%            5.94%
 
 # Gestion d'une petite mémoire physique
 
@@ -110,25 +95,8 @@ par la page désirée.
 Les même comparaisons d'algorithmes avec une 128 frames et 256 pages donnent
 les résultats suivants:
 
-```
-FIFO
-
-Page-Faults: 34970	Page founds: 35030
-TLB-Hit: 4362	TLB-miss: 65638
-Page-Fault rate: 0.499571
-TLB-Hit rate: 0.0623143
-
-LFU
-
-Page-Faults: 34984	Page founds: 35016
-TLB-Hit: 4353	TLB-miss: 65647
-Page-Fault rate: 0.499771
-TLB-Hit rate: 0.0621857
-
-LRU
-
-Page-Faults: 34906	Page founds: 35094
-TLB-Hit: 4342	TLB-miss: 65658
-Page-Fault rate: 0.498657
-TLB-Hit rate: 0.0620286
-```
+Algorithme Page fault ratio TLB hit rate
+---------- ---------------- ------------
+FIFO       49.96%           6.23%
+LFU        49.87%           6.21%
+LRU        49.87%           6.20%
