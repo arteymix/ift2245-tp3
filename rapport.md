@@ -62,10 +62,9 @@ FIFO       0.018%          0.587%
 
 ## Page fault ratio
 
-Avec le premier fichier exemple où 18 pages sont chargés, le _page fault ratio_
-est le même pour tous les algorithmes utilisés, car le nombre de pages à charger
-est inférieur à la taille du TLB. Toute les pages se trouvent dans la cache,
-alors le _TLB miss_ reste constant.
+Avec le premier exemple ("adresse.txt") où 18 pages sont chargés, le _page fault ratio_
+est le même (18\1000) pour tous les algorithmes utilisés car le nombre de pages à charger est inférieur à la taille de la mémoire physique et il n'est donc jamais nécessaire de _swapper_ des pages d'une frame de la mémoire physique. Si le nombre de page à charger est inférieur au nombre de place en mémoire
+ physique, le page fault ratio sera toujours "le nombre de page à charger"/"le nombre total de requete"
 
 Dans le cadre du deuxième exemple, un plus grand nombre de page est demandé de
 manière aléatoire et on peut observer un nombre très élevé de _page fault_. Les
