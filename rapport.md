@@ -62,9 +62,14 @@ FIFO       0.018%          0.587%
 
 ## Page fault ratio
 
-Avec le premier exemple ("adresse.txt") où 18 pages sont chargés, le _page fault ratio_
-est le même (18\1000) pour tous les algorithmes utilisés car le nombre de pages à charger est inférieur à la taille de la mémoire physique et il n'est donc jamais nécessaire de _swapper_ des pages d'une frame de la mémoire physique. Si le nombre de page à charger est inférieur au nombre de place en mémoire
- physique, le page fault ratio sera toujours "le nombre de page à charger"/"le nombre total de requete"
+Avec le premier exemple ("adresse.txt") où 18 pages sont chargés, le
+_page fault ratio_
+est le même ($18/1000$) pour tous les algorithmes utilisés car le nombre de pages
+à charger est inférieur à la taille de la mémoire physique et il n'est donc
+jamais nécessaire de _swapper_ des pages d'une frame de la mémoire physique. Si
+le nombre de page à charger est inférieur au nombre de place en mémoire
+physique, le page fault ratio sera toujours "le nombre de page à charger"/"le
+nombre total de requete".
 
 Dans le cadre du deuxième exemple, un plus grand nombre de page est demandé de
 manière aléatoire et on peut observer un nombre très élevé de _page fault_. Les
@@ -77,6 +82,27 @@ important de n'avoir qu'un seul de ces define de présent sinon on se retrouve
 avec plus qu'une fonction addentry pour le TLB.
 
 Avec 256 frames et 18 entrées dans le TLB, on obtient les résultats suivants:
+
+```
+LFU
+Page-Faults: 256 Page founds: 69744
+TLB-Hit: 4396 TLB-miss: 65604
+Page-Fault rate: 0.00365714
+TLB-Hit rate: 0.0628
+
+LRU
+Page-Faults: 256 Page founds: 69744
+TLB-Hit: 4158 TLB-miss: 65842
+Page-Fault rate: 0.00365714
+TLB-Hit rate: 0.0594
+
+FIFO
+
+Page-Faults: 256 Page founds: 69744
+TLB-Hit: 4355 TLB-miss: 65645
+Page-Fault rate: 0.00365714
+TLB-Hit rate: 0.0622143
+```
 
 Algorithme Page fault ratio TLB hit rate
 ---------- ---------------- ------------
@@ -94,6 +120,29 @@ par la page désirée.
 
 Les même comparaisons d'algorithmes avec une 128 frames et 256 pages donnent
 les résultats suivants:
+
+```
+FIFO
+
+Page-Faults: 34970 Page founds: 35030
+TLB-Hit: 4362 TLB-miss: 65638
+Page-Fault rate: 0.499571
+TLB-Hit rate: 0.0623143
+
+LFU
+
+Page-Faults: 34984 Page founds: 35016
+TLB-Hit: 4353 TLB-miss: 65647
+Page-Fault rate: 0.499771
+TLB-Hit rate: 0.0621857
+
+LRU
+
+Page-Faults: 34906 Page founds: 35094
+TLB-Hit: 4342 TLB-miss: 65658
+Page-Fault rate: 0.498657
+TLB-Hit rate: 0.0620286
+```
 
 Algorithme Page fault ratio TLB hit rate
 ---------- ---------------- ------------
