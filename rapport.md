@@ -9,8 +9,7 @@ make
 ```
 
 Pour alterner d'un algorithme de mise en cache à un autre, il suffit de changer
-la directive `#define <algorithme>` dans le fichier `common.h` et de recompiler
-le projet:
+la directive `#define <algorithme>` dans le fichier `common.h`:
 
 ```C
 #define LRU
@@ -22,10 +21,10 @@ La séquence d'action qui a été implantée dans l'exécution d'une commande es
 suivante:
 
  1. vérifier si la page se trouve dans le TLB
- 2. sinon, vérifier si la page est chargée en mémoire
+ 2. sinon, vérifier si la page est encore chargée en mémoire
  3. sinon, demander la page à la mémoire physique
  4. sinon, swapper un frame qui n'est pas dans le TLB avec la page désirée
- 5. ajouter la page au TLB avec `addEntry`
+ 5. ajouter la page au TLB
 
 Pour l'allocation initiales des frames, un compte est gardé pour mémoriser
 combien de frames ont été alloués. Une fois tous les frames alloués, la
@@ -40,18 +39,17 @@ Trois algorithmes (FIFO, LRU et LFU) ont été implantés pour le TLB et peuvent
 # Stratégie de remplacement pour le TLB
 
 Pour la TLB, nous avons utilisé LFU comme algorithme de remplacement car, des
-trois algorithmes implantés, c'est celui qui se comportant le mieux avec le
-fichier d'exemples `addresse.txt`.
+trois algorithmes implantés, c'est celui qui se comportant le mieux avec
+l'exemple "addresse.txt".
 
 Chaque algorithme de remplacement à ses cas où il
 
-LFU fonctionne bien lorsqu'un nombre limité de frames ont un nombre d'accès
-beaucoup plus élevé que les autres et que ceux-ci sont appelés...
-
-LRU fonctionne bien lorsque les accès à une frame particulière sont  rapprochés.
-
-FIFO fonctionne bien lorsque les accès à une frame particulière sont très
-rapprochée, voir quasi-consécutive.
+ - LFU  fonctionne bien lorsqu'un nombre limité de frames ont un nombre d'accès
+        beaucoup plus élevé que les autres et que ceux-ci sont appelés...
+ - LRU  fonctionne bien lorsque les accès à une frame particulière sont
+        rapprochés.
+ - FIFO fonctionne bien lorsque les accès à une frame particulière sont très
+        rapprochée, voir quasi-consécutive.
 
 On peut observer assez clairement la différence au niveau du _TLB hit rate_
 entre les trois algorithmes.
@@ -67,7 +65,7 @@ FIFO       0.018%          0.587%
 Avec le premier fichier exemple où 18 pages sont chargés, le _page fault ratio_
 est le même pour tous les algorithmes utilisés, car le nombre de pages à charger
 est inférieur à la taille du TLB. Toute les pages se trouvent dans la cache,
-alors le _TLB miss_ reste constant à 18.
+alors le _TLB miss_ reste constant.
 
 Dans le cadre du deuxième exemple, un plus grand nombre de page est demandé et
 on peut observer une bonne disparité au niveau du rendement de chaques
@@ -76,6 +74,8 @@ algorithmes.
 Si le nombre de page à charger est inférieur au nombre de place en mémoire
 physique, le page fault ratio sera toujours "le nombre de page à charger"/"
 le nombre total de requete".
+
+Pour "adresse.txt", il est de 18/1000 car seul 18 page sont utilisé dans l'exemple
 
 Pour changer l'algorithme de remplacement, il changer la ligne "#define LFU"
  dans le fichier "common.h" par "#define FIFO" ou par "#define LRU". Il est
@@ -103,20 +103,6 @@ Page-Faults: 256	Page founds: 69744
 TLB-Hit: 4355	TLB-miss: 65645
 Page-Fault rate: 0.00365714
 TLB-Hit rate: 0.0622143
-```
-
-Algorithme TLB hit rate Page fault ratio
----------- ------------ ----------------
-LFU        6,28%        0,36%
-LRU        5,94%        0,36%
-FIFO       6,22%        0,36%
-
-Avec 16 pages dans le TLB et considérant que le fichier fait 256 demande
-différentes de pages, il est normal d'observer un _TLB hit rate_ aussi bas.
-
-Aussi, considérant qu'il y a autant de pages que de frames, le nombre de
-_page fault_ est d'au plus le nombre de frames, par conséquent tous les
-algorithmes vont produire le même nombre de _page fault_.
 
 # Gestion d'une petite mémoire physique
 
@@ -126,21 +112,9 @@ le cas ou tous les frames sont utilisés et qu'une page doit être chargée en
 mémoire. La première page qui ne se trouve pas dans le TLB est alors remplacé
 par la page désirée.
 
-Une implémentation plus efficace devrait maintenir un index des pages chargées
-en mémoire afin de pouvoir trouver rapidement une page dont le frame peut être
-recyclée.
-
 Les même comparaisons d'algorithmes avec une 128 frames et 256 pages donnent
 les résultats suivants:
 
-
-Algorithme TLB hit rate Page fault rate
----------- ------------ ---------------
-LFU        6,22%        49,78%
-LRU        6,20%        49,87%
-FIFO       6,23%        49,96%
-
-```
 FIFO
 
 Page-Faults: 34970	Page founds: 35030
@@ -161,5 +135,4 @@ Page-Faults: 34906	Page founds: 35094
 TLB-Hit: 4342	TLB-miss: 65658
 Page-Fault rate: 0.498657
 TLB-Hit rate: 0.0620286
-```
 
