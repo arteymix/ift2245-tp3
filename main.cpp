@@ -2,20 +2,23 @@
 
 int main()
 {
-    ifstream commands("addressesRANDOM.txt",ios::in);
+    ifstream commands(COMMANDS_FILE, ios::in);
 
     VirtualMemoryManager vm;
-	
+
     int logicAddres;
-    do{
+    do
+    {
         commands >> logicAddres;
         vm.addCommandFromLogicAddress(logicAddres);
-    }while(commands.good());
+    }
+    while(commands.good());
 
     vm.applyCommands();
     vm.printResults();
 
     commands.close();
-    return 0;
+
+    return EXIT_SUCCESS;
 }
 

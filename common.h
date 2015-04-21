@@ -7,11 +7,15 @@
 #include <stack>
 #include <list>
 
-#define NUM_FRAMES 128
+#include <stdlib.h>
+
+#define NUM_FRAMES 256
 #define NUM_PAGES 256
 #define TLB_NUM_ENTRIES 16
 #define PAGE_FRAME_SIZE 256
 #define PHYSICAL_MEMORY_SIZE NUM_FRAMES * PAGE_FRAME_SIZE
+
+#define COMMANDS_FILE "addressesRANDOM.txt"
 
 #define FIFO
 //#define LRU
